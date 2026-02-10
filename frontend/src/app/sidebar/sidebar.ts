@@ -19,7 +19,7 @@ export class Sidebar {
   SidebarLeft = "assets/icons/sidebar-left.svg";
   ChartSquare = "assets/icons/chart-square.svg";
   Personalcard = "assets/icons/personalcard.svg";
-  User = "assets/icons/user.svg";
+  User = "assets/icons/user-edit.svg";
   Verify = "assets/icons/verify.svg";
   Setting = "assets/icons/setting.svg";
   Logout = "assets/icons/logout.svg";
