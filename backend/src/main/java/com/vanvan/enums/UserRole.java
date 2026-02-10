@@ -2,8 +2,8 @@ package com.vanvan.enums;
 
 public enum UserRole {
     ADMIN("admin"),
-    MOTORISTA("motorista"),
-    PASSAGEIRO("passageiro");
+    DRIVER("driver"),
+    PASSENGER("passenger");
 
     private String role;
 
