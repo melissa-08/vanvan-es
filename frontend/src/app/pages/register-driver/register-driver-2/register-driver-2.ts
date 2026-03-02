@@ -16,7 +16,7 @@ export class RegisterDriverTwo {
   vehicle = '';
   licensePlate = '';
   birthdate = '';
-  
+
   errorMessage = '';
 
   private dadosEtapa1: any = {};
@@ -29,7 +29,7 @@ export class RegisterDriverTwo {
         const nav = this.router.getCurrentNavigation();
         if (nav?.extras.state) {
             this.dadosEtapa1 = nav.extras.state['driver'];
-        } else { 
+        } else {
             this.router.navigate(['/register-driver-1']);
         }
     }
@@ -45,15 +45,15 @@ export class RegisterDriverTwo {
     onBirthdateInput(event: any) {
         const input = event.target as HTMLInputElement;
         let value = input.value.replace(/\D/g, '');
-        
+
         if (value.length > 8) value = value.slice(0, 8);
-        
+
         if (value.length > 4) {
           value = value.replace(/^(\d{2})(\d{2})(\d{0,4}).*/, '$1/$2/$3');
         } else if (value.length > 2) {
           value = value.replace(/^(\d{2})(\d{0,2}).*/, '$1/$2');
         }
-    
+
         this.birthdate = value;
         input.value = value;
     }
@@ -74,16 +74,16 @@ export class RegisterDriverTwo {
             this.toastService.error('Data de nascimento inválida. Use o formato dd/mm/aaaa.');
             return;
         }
-        
+
         const day = parseInt(dateParts[0], 10);
         const month = parseInt(dateParts[1], 10);
         const year = parseInt(dateParts[2], 10);
-        
+
         if (year < 1920 || year > 2020) {
             this.toastService.error('O ano de nascimento deve ser entre 1920 e 2020.');
             return;
         }
-        
+
         if (month < 1 || month > 12 || day < 1 || day > 31) {
             this.toastService.error('Data de nascimento inválida.');
             return;
@@ -109,19 +109,19 @@ export class RegisterDriverTwo {
 
         this.authService.register(motoristaCompleto).subscribe({
             next: () => {
-                this.toastService.success('Motorista cadastrado com sucesso!');
+                this.toastService.success('Motorista cadastrado, aguarde a aprovação do administrador!');
                 this.router.navigate(['/login']);
             },
             error: (err) => {
                 console.error('Erro no cadastro do motorista:', err);
                 let msgErro = 'Falha ao realizar cadastro. Verifique os dados e tente novamente.';
-                
+
                 if (err.error && typeof err.error === 'object' && err.error.message) {
                     msgErro = err.error.message;
                 } else if (typeof err.error === 'string') {
                     msgErro = err.error;
                 }
-                
+
                 this.errorMessage = msgErro;
                 this.toastService.error(msgErro); // Dispara o Toast com o erro da API
             }

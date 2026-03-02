@@ -4,9 +4,11 @@ import org.springframework.web.bind.annotation.*;
 import com.vanvan.dto.DriverAdminResponseDTO;
 import com.vanvan.dto.DriverStatusUpdateDTO;
 import com.vanvan.dto.DriverUpdateDTO;
+import com.vanvan.dto.VehicleResponseDTO;
 import com.vanvan.model.User;
 import com.vanvan.enums.RegistrationStatus;
 import com.vanvan.service.AdminService;
+import com.vanvan.service.VehicleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -22,6 +25,7 @@ import java.util.UUID;
 public class AdminController {
 
     private final AdminService adminService;
+    private final VehicleService vehicleService;
 
     @SuppressWarnings("DefaultAnnotationParam")
     @GetMapping("/drivers")
@@ -85,5 +89,21 @@ public class AdminController {
         } catch (IllegalArgumentException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
+    }
+
+    // Endpoints para gerenciar veículos
+    @GetMapping("/vehicles")
+    public ResponseEntity<List<VehicleResponseDTO>> listAllVehicles() {
+        return ResponseEntity.ok(vehicleService.getAllVehicles());
+    }
+
+    @GetMapping("/vehicles/driver/{driverId}")
+    public ResponseEntity<List<VehicleResponseDTO>> listVehiclesByDriver(@PathVariable UUID driverId) {
+        return ResponseEntity.ok(vehicleService.getVehiclesByDriver(driverId));
+    }
+
+    @GetMapping("/vehicles/{vehicleId}")
+    public ResponseEntity<VehicleResponseDTO> getVehicleById(@PathVariable UUID vehicleId) {
+        return ResponseEntity.ok(vehicleService.getVehicleById(vehicleId));
     }
 }
